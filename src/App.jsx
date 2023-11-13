@@ -6,12 +6,16 @@ import { object, array, boolean } from "yup";
 const SignupForm = () => {
   const [reqn, setreqn] = useState("");
   const [reqe, setreqe] = useState("");
+
   const formik = useFormik({
     initialValues: {
       firstName: "",
       lastName: "",
       email: "",
       gender: "",
+      address1: "",
+      address2: "",
+      address3: "",
     },
     validationSchema: Yup.object({
       firstName: Yup.string()
@@ -22,15 +26,19 @@ const SignupForm = () => {
         .required(""),
       email: Yup.string().email("Invalid email address").required(""),
 
-      gender: Yup.string().required("Please select a gender"),
+      // gender: Yup.string().required("Please select a gender"),
+
+      address1: Yup.string().required("Address required"),
+      address2: Yup.string().required("Address required"),
+      address3: Yup.string().required("Address required"),
     }),
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
     },
   });
   useEffect(() => {
-    console.log(`firstname is now ${formik.values.firstName}`);
-    console.log(`lastname is now ${formik.values.lastName}`);
+    // console.log(`firstname is now ${formik.values.firstName}`);
+    // console.log(`lastname is now ${formik.values.lastName}`);
     if (!formik.values.firstName && formik.values.lastName) {
       setreqn("-----*First Name is Required");
       console.log(reqn);
@@ -38,8 +46,9 @@ const SignupForm = () => {
   }, [formik.values.lastName, formik.values.firstName]);
 
   useEffect(() => {
-    console.log(`firstname is now ${formik.values.email}`);
-    console.log(`lastname is now ${formik.values.lastName}`);
+    // console.log(`firstname is now ${formik.values.email}`);
+    // console.log(`lastname is now ${formik.values.lastName}`);
+    // console.log(`gender is now ${formik.values.gender}`);
     if (!formik.values.lastName && formik.values.email) {
       setreqe("-----*Last Name is Required");
       console.log(reqe);
@@ -89,29 +98,72 @@ const SignupForm = () => {
 
       <div>
         <input
-          id="male"
+          id="gender"
           type="radio"
           name="gender"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          value={(formik.values.gender = "male")}
+          value={(formik.values.male = "male")}
         />
-        <label htmlFor="male">male</label>
-      </div>
-      <div>
+        <label htmlFor="gender">male</label>
+
         <input
-          id="female"
+          id="gender"
           type="radio"
           name="gender"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          value={(formik.values.gender = "female")}
+          value={(formik.values.female = "female")}
         />
-        <label htmlFor="female">female</label>
+        <label htmlFor="gender">female</label>
       </div>
       {formik.errors.gender && formik.touched.gender && (
         <div>{formik.errors.gender}</div>
       )}
+
+      <label htmlFor="address1">House Name</label>
+      <input
+        id="address1"
+        name="address1"
+        type="text"
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        value={formik.values.address1}
+      />
+      {formik.touched.address1 && formik.errors.address1 ? (
+        <div>{formik.errors.address1}</div>
+      ) : null}
+
+      <label htmlFor="address2">Location</label>
+      <input
+        id="address2"
+        name="address2"
+        type="text"
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        value={formik.values.address2}
+        disabled={!Boolean(formik.values.address1)}
+      />
+      {formik.touched.address2 && formik.errors.address2 ? (
+        <div>{formik.errors.address2}</div>
+      ) : null}
+
+      <label htmlFor="address3">Pincode</label>
+      <input
+        id="address3"
+        name="address3"
+        type="number"
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        value={formik.values.address3}
+        disabled={
+          !Boolean(formik.values.address1) || !Boolean(formik.values.address2)
+        }
+      />
+      {formik.touched.address3 && formik.errors.address3 ? (
+        <div>{formik.errors.address3}</div>
+      ) : null}
+
       <button type="submit">Submit</button>
     </form>
   );
