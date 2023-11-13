@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useFormik, useFormikContext } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
+import { object, array, boolean } from "yup";
 
 const SignupForm = () => {
   const [reqn, setreqn] = useState("");
@@ -10,6 +11,7 @@ const SignupForm = () => {
       firstName: "",
       lastName: "",
       email: "",
+      gender: "",
     },
     validationSchema: Yup.object({
       firstName: Yup.string()
@@ -19,6 +21,8 @@ const SignupForm = () => {
         .max(20, "Must be 20 characters or less")
         .required(""),
       email: Yup.string().email("Invalid email address").required(""),
+
+      gender: Yup.string().required("Please select a gender"),
     }),
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
@@ -83,6 +87,31 @@ const SignupForm = () => {
         <div>{formik.errors.email}</div>
       ) : null}
 
+      <div>
+        <input
+          id="male"
+          type="radio"
+          name="gender"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={(formik.values.gender = "male")}
+        />
+        <label htmlFor="male">male</label>
+      </div>
+      <div>
+        <input
+          id="female"
+          type="radio"
+          name="gender"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={(formik.values.gender = "female")}
+        />
+        <label htmlFor="female">female</label>
+      </div>
+      {formik.errors.gender && formik.touched.gender && (
+        <div>{formik.errors.gender}</div>
+      )}
       <button type="submit">Submit</button>
     </form>
   );
