@@ -1,0 +1,31 @@
+import React, { useEffect, useState } from "react";
+
+const ExampleComponent = (props) => {
+  // Declare a state variable
+  const [count, setCount] = useState(0);
+  const [name, setname] = useState(0);
+  const [req, setreq] = useState(0);
+  // Declare a side effect using useEffect
+  useEffect(() => {
+    // This effect will be triggered whenever the prop "showAlert" changes
+
+    // This effect will be triggered whenever the count state changes
+    console.log(`Count is now ${count}`);
+    console.log(`name is now ${name}`);
+    if (name == 0 && count != 0) {
+      setreq("Required");
+      console.log(req);
+    }
+    // Clean up the effect
+  }, [count]); // Pass in an array of dependencies
+
+  return (
+    <div>
+      <button onClick={() => setname(5)}>Increase name</button>
+      <button onClick={() => setCount(10)}>Increase Count</button>
+      {req}
+    </div>
+  );
+};
+
+export default ExampleComponent;
