@@ -53,7 +53,7 @@ const SignupForm = () => {
   });
   useEffect(() => {
     if (!formik.values.firstName && formik.values.lastName) {
-      setreqn("*First Name is Required");
+      setreqn("Full Name is Required");
       console.log(reqn);
     } else setreqn("");
   }, [formik.values.lastName, formik.values.firstName]);
@@ -63,7 +63,7 @@ const SignupForm = () => {
       !formik.values.lastName &&
       (formik.values.email || formik.values.phoneNumber)
     ) {
-      setreqe("*Full Name is Required");
+      setreqe("Full Name is Required");
     } else setreqe("");
   }, [formik.values.lastName, formik.values.email, formik.values.phoneNumber]);
 
